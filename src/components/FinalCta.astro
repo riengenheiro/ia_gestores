@@ -1,0 +1,33 @@
+---
+import { eventData } from '../data/event';
+---
+
+<section class="close-section">
+  <div class="container-focus text-center">
+    <h2 class="close-title">Quinta, 5 de novembro, às 18h, em Campinas. Garanta o seu lugar.</h2>
+    <p class="close-text">
+      Uma noite para ver a IA funcionando no atendimento pelo WhatsApp, fazer a conta com os seus números e sair com um plano de 30 dias no papel.
+    </p>
+    <p class="close-text">
+      Até 31 de outubro o ingresso sai por <strong>R$ {eventData.priceLot}</strong>; a partir de 1º de novembro, R$ {eventData.priceFull}. Os lugares são limitados ao espaço do Legacy Coffee.
+    </p>
+    <a href="#ingressos" class="btn-primary close-btn">GARANTIR MINHA VAGA · R$ {eventData.priceLot}</a>
+  </div>
+</section>
+
+<style>
+  .close-section {
+    padding: 72px 0;
+    background: radial-gradient(circle at 50% 0%, rgba(224, 64, 28, 0.35) 0%, transparent 65%), var(--color-dark);
+    color: var(--color-white);
+  }
+  .close-title { font-size: 32px; font-weight: 800; line-height: 1.25; margin-bottom: 20px; }
+  .close-text { font-size: 17px; color: rgba(255, 255, 255, 0.82); line-height: 1.65; margin-bottom: 14px; }
+  .close-text strong { color: #ff6a45; }
+  .close-btn { margin-top: 18px; font-size: 18px; }
+  @media (max-width: 768px) {
+    .close-title { font-size: 25px; }
+    .close-text { font-size: 15.5px; }
+    .close-btn { width: 100%; font-size: 16px; }
+  }
+</style>

@@ -1,0 +1,96 @@
+---
+import { eventData } from '../data/event';
+import VideoFacade from './VideoFacade.astro';
+---
+
+<section class="logistics-section">
+  <div class="container-focus text-center">
+    <h2 class="logistics-title">Uma noite para descobrir novas possibilidades para sua empresa.</h2>
+    <p class="logistics-intro">
+      Vamos nos encontrar presencialmente para conversar sobre como a inteligência artificial pode ajudar você a conquistar clientes, ganhar tempo e fazer mais pelo seu negócio.
+    </p>
+
+    <p class="logistics-mark" aria-hidden="true">📅</p>
+    <p class="logistics-strong">{eventData.dateLong}, a partir das 18h</p>
+
+    <p class="logistics-mark" aria-hidden="true">📍</p>
+    <p class="logistics-strong">{eventData.venueName}</p>
+    {eventData.venueVideoId && (
+      <div class="logistics-video">
+        <VideoFacade id={eventData.venueVideoId} title="Treinamento de IA com Kelly Zortea" />
+      </div>
+    )}
+    <p class="logistics-address">Av. Nossa Sra. de Fátima, 998 — Taquaral, Campinas — SP, 13076-000</p>
+
+    <p class="logistics-format">Um encontro presencial em um ambiente descontraído, com lugares limitados à capacidade do café.</p>
+
+    <a href={eventData.mapsUrl} target="_blank" rel="noopener noreferrer" class="maps-link">
+      Ver localização no Google Maps &rarr;
+    </a>
+  </div>
+</section>
+
+<style>
+  .logistics-section {
+    padding: 64px 0;
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+  .logistics-title {
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .logistics-intro {
+    font-size: 16px;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 8px;
+  }
+  .logistics-mark {
+    font-size: 32px;
+    line-height: 1;
+    margin: 22px 0 8px;
+  }
+  .logistics-strong {
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.3;
+  }
+  .logistics-video {
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 9 / 16;
+    margin: 18px auto 14px;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    border: 4px solid rgba(255, 255, 255, 0.9);
+  }
+  .logistics-address {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  .logistics-format {
+    font-size: 14.5px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 22px;
+    line-height: 1.6;
+  }
+  .maps-link {
+    display: inline-block;
+    margin-top: 18px;
+    font-weight: 800;
+    color: var(--color-white);
+  }
+  .maps-link:hover { text-decoration: underline; }
+  @media (max-width: 768px) {
+    .logistics-title { font-size: 26px; }
+    .logistics-strong { font-size: 18px; }
+    .logistics-video { max-width: 260px; }
+  }
+</style>

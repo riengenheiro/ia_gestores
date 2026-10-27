@@ -1,0 +1,57 @@
+---
+import { eventData } from '../data/event';
+
+const cityName = eventData.city.charAt(0) + eventData.city.slice(1).toLowerCase();
+const stats = [
+  { value: eventData.companiesAccompanied, label: 'Empresas acompanhadas' },
+  { value: eventData.time, label: `${cityName} · ${eventData.dateLong}` },
+  { value: `R$ ${eventData.priceLot}`, label: `1º lote ${eventData.lotDeadlineText}` },
+];
+---
+
+<section class="numbers-section">
+  <div class="container text-center">
+    <div class="numbers-grid">
+      {stats.map((stat) => (
+        <div class="number-item">
+          <p class="number-value font-anton">{stat.value}</p>
+          <p class="number-label">{stat.label}</p>
+        </div>
+      ))}
+    </div>
+    <a href="#ingressos" class="btn-light">GARANTIR MINHA VAGA · R$ {eventData.priceLot}</a>
+  </div>
+</section>
+
+<style>
+  .numbers-section {
+    padding: 56px 0;
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+  .numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto 32px;
+  }
+  .number-value {
+    font-size: 52px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .number-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.45;
+  }
+  @media (max-width: 700px) {
+    .numbers-grid { grid-template-columns: 1fr; gap: 28px; }
+    .number-value { font-size: 40px; }
+    .numbers-section :global(.btn-light) { width: 100%; }
+  }
+</style>

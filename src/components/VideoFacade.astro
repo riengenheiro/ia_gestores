@@ -1,0 +1,115 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  class?: string;
+}
+
+const { id, title, class: className } = Astro.props;
+const fallback = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+---
+
+<button
+  type="button"
+  class:list={['video-facade', className]}
+  data-video-id={id}
+  data-video-title={title}
+  aria-label={`Assistir: ${title}`}
+>
+  <img
+    class="video-facade-thumb"
+    src={`https://i.ytimg.com/vi/${id}/oardefault.jpg`}
+    data-fallback={fallback}
+    alt={title}
+    loading="lazy"
+    onerror={`this.onerror=null;this.src='${fallback}'`}
+  />
+  <span class="video-facade-play" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="30" height="30"><path d="M8 5v14l11-7z" fill="#fff" /></svg>
+  </span>
+</button>
+
+<style>
+  .video-facade {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: #000;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .video-facade::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.15) 55%, rgba(0, 0, 0, 0.45) 100%);
+    pointer-events: none;
+  }
+  .video-facade-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .video-facade-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 4px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    transform: translate(-50%, -50%);
+    transition: transform 0.2s ease;
+  }
+  .video-facade:hover .video-facade-play,
+  .video-facade:focus-visible .video-facade-play {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  .video-facade:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: -3px;
+  }
+  :global(.video-facade-frame) {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLImageElement>('.video-facade-thumb').forEach((img) => {
+    const check = () => {
+      if (img.naturalWidth <= 120 && img.dataset.fallback && img.src !== img.dataset.fallback) {
+        img.src = img.dataset.fallback;
+      }
+    };
+    if (img.complete) check();
+    else img.addEventListener('load', check);
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('.video-facade').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const { videoId, videoTitle } = btn.dataset;
+      if (!videoId) return;
+      const iframe = document.createElement('iframe');
+      iframe.className = 'video-facade-frame';
+      iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1&iv_load_policy=3&modestbranding=1`;
+      iframe.title = videoTitle ?? '';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.allowFullscreen = true;
+      btn.replaceWith(iframe);
+    });
+  });
+</script>

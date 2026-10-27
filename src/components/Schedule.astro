@@ -1,0 +1,72 @@
+---
+import { eventData } from '../data/event';
+---
+
+<section class="schedule-section">
+  <div class="container-focus">
+    <div class="schedule-header text-center">
+      <h2 class="schedule-title">Como vai ser a noite</h2>
+      <p class="schedule-sub">{eventData.dateLong} · {eventData.venueName.split(' — ')[0]}</p>
+    </div>
+
+    <ol class="timeline">
+      {eventData.schedule.map((item) => (
+        <li class="timeline-item">
+          <span class="timeline-time font-anton">{item.time}</span>
+          <div class="timeline-body">
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <div class="schedule-cta text-center">
+      <a href="#ingressos" class="btn-primary">GARANTIR MINHA VAGA · R$ {eventData.priceLot}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .schedule-section { padding: 64px 0; background: var(--color-white); }
+  .schedule-header { margin-bottom: 36px; }
+  .schedule-title { font-size: 32px; font-weight: 800; color: var(--color-dark); margin-bottom: 6px; }
+  .schedule-sub { font-size: 15px; color: var(--color-gray-medium); }
+  .timeline { list-style: none; position: relative; }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 66px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--color-gray-border);
+  }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 28px;
+    padding-bottom: 26px;
+    position: relative;
+  }
+  .timeline-item::after {
+    content: "";
+    position: absolute;
+    left: 61px;
+    top: 7px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(224, 64, 28, 0.15);
+  }
+  .timeline-time { font-size: 19px; color: var(--color-primary); padding-top: 2px; }
+  .timeline-body h3 { font-size: 17px; font-weight: 800; color: var(--color-dark); margin-bottom: 4px; }
+  .timeline-body p { font-size: 14.5px; color: var(--color-gray-medium); line-height: 1.6; }
+  .schedule-cta { margin-top: 12px; }
+  @media (max-width: 768px) {
+    .schedule-title { font-size: 25px; }
+    .timeline-item { gap: 22px; }
+    .schedule-cta :global(.btn-primary) { width: 100%; }
+  }
+</style>

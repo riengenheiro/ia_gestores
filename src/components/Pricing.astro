@@ -1,0 +1,155 @@
+---
+import { eventData } from '../data/event';
+---
+
+<section id="ingressos" class="pricing-section">
+  <div class="container">
+    <div class="pricing-header">
+      <h2 class="pricing-title">Garanta seu lugar</h2>
+      <p class="pricing-sub">Os lugares são limitados ao espaço do Legacy Coffee.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="ticket-card">
+        <span class="ticket-badge font-anton">1º LOTE · {eventData.lotDeadlineText.toUpperCase()}</span>
+        <h3 class="ticket-name">{eventData.lotName}</h3>
+
+        <div class="ticket-price">
+          <span class="ticket-old">R$ {eventData.priceFull}</span>
+          <div class="ticket-main">
+            <span class="price-currency font-anton">R$</span>
+            <span class="price-val font-anton">{eventData.priceLot}</span>
+          </div>
+          <span class="ticket-per">por pessoa</span>
+          <span class="ticket-half">Meia-entrada: R$ {eventData.priceHalf}</span>
+        </div>
+
+        <p class="ticket-rule">
+          Neste lote: de R$ {eventData.priceFull} por R$ {eventData.priceLot}, {eventData.lotDeadlineText}. {eventData.lotAfterText}
+        </p>
+
+        <div class="countdown" id="countdown" data-deadline={eventData.lotDeadlineISO}>
+          <p class="countdown-label">O preço de R$ {eventData.priceLot} acaba em</p>
+          <div class="countdown-grid">
+            <div><span data-unit="d">00</span><small>dias</small></div>
+            <div><span data-unit="h">00</span><small>horas</small></div>
+            <div><span data-unit="m">00</span><small>min</small></div>
+            <div><span data-unit="s">00</span><small>seg</small></div>
+          </div>
+        </div>
+
+        <a href={eventData.checkoutUrl} class="btn-primary btn-full ticket-btn">
+          GARANTIR MINHA VAGA · R$ {eventData.priceLot}
+        </a>
+        <p class="ticket-pay">Pagamento via Pix (na hora) ou cartão de crédito</p>
+      </div>
+
+      <div class="included-card">
+        <h3 class="included-title">O que está incluído no seu ingresso</h3>
+        <ul class="included-list">
+          {eventData.included.map((item) => (
+            <li><span class="check">&check;</span><span><strong>{item.strong}</strong>{item.text}</span></li>
+          ))}
+        </ul>
+        <p class="included-note">Seus dados serão tratados pelo organizador para gerenciar sua inscrição e a participação no evento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const el = document.getElementById('countdown');
+  if (el) {
+    const deadline = new Date(el.dataset.deadline ?? '').getTime();
+    const set = (u: string, v: number) => {
+      const node = el.querySelector(`[data-unit="${u}"]`);
+      if (node) node.textContent = String(v).padStart(2, '0');
+    };
+    const tick = () => {
+      const diff = Math.max(0, deadline - Date.now());
+      set('d', Math.floor(diff / 86400000));
+      set('h', Math.floor(diff / 3600000) % 24);
+      set('m', Math.floor(diff / 60000) % 60);
+      set('s', Math.floor(diff / 1000) % 60);
+      if (diff === 0) el.style.display = 'none';
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+</script>
+
+<style>
+  .pricing-section { padding: 72px 0; background-color: var(--color-light-bg); scroll-margin-top: 60px; }
+  .pricing-header { text-align: center; margin-bottom: 40px; }
+  .pricing-title { font-size: 36px; font-weight: 800; color: var(--color-dark); margin-bottom: 8px; }
+  .pricing-sub { font-size: 15px; color: var(--color-gray-medium); }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    max-width: 980px;
+    margin: 0 auto;
+    align-items: stretch;
+  }
+  .ticket-card {
+    position: relative;
+    background: var(--color-white);
+    border: 3px solid var(--color-primary);
+    border-radius: var(--radius-xl);
+    padding: 40px 28px 28px;
+    text-align: center;
+    box-shadow: 0 14px 36px rgba(224, 64, 28, 0.14);
+  }
+  .ticket-badge {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: 6px 20px;
+    border-radius: var(--radius-full);
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .ticket-name { font-size: 20px; font-weight: 800; color: var(--color-dark); margin-bottom: 14px; }
+  .ticket-price { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-bottom: 14px; }
+  .ticket-old { font-size: 16px; color: var(--color-gray-light); text-decoration: line-through; }
+  .ticket-main { display: flex; align-items: baseline; gap: 4px; color: var(--color-primary); }
+  .price-currency { font-size: 26px; }
+  .price-val { font-size: 76px; line-height: 1; }
+  .ticket-per { font-size: 14px; color: var(--color-gray-medium); }
+  .ticket-half { font-size: 14px; font-weight: 700; color: var(--color-dark-alt); margin-top: 4px; }
+  .ticket-rule { font-size: 13px; color: var(--color-gray-medium); margin-bottom: 18px; }
+  .countdown {
+    background: var(--color-dark);
+    color: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    margin-bottom: 18px;
+  }
+  .countdown-label { font-size: 13px; color: rgba(255, 255, 255, 0.8); margin-bottom: 10px; }
+  .countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .countdown-grid div { display: flex; flex-direction: column; align-items: center; }
+  .countdown-grid span { font-family: var(--font-heading); font-size: 30px; line-height: 1; color: #ff6a45; }
+  .countdown-grid small { font-size: 11px; color: rgba(255, 255, 255, 0.7); margin-top: 4px; }
+  .ticket-btn { font-size: 17px; }
+  .ticket-pay { font-size: 12.5px; color: var(--color-gray-light); margin-top: 10px; }
+  .included-card {
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-border);
+    border-radius: var(--radius-xl);
+    padding: 32px 28px;
+  }
+  .included-title { font-size: 22px; font-weight: 800; color: var(--color-dark); margin-bottom: 18px; }
+  .included-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .included-list li { display: flex; gap: 10px; font-size: 15px; line-height: 1.55; color: var(--color-gray-dark); }
+  .included-list strong { color: var(--color-dark); font-weight: 800; }
+  .check { color: var(--color-primary); font-weight: 900; flex-shrink: 0; }
+  .included-note { font-size: 12.5px; color: var(--color-gray-light); margin-top: 20px; }
+  @media (max-width: 900px) {
+    .pricing-grid { grid-template-columns: 1fr; max-width: 480px; }
+    .pricing-title { font-size: 28px; }
+  }
+</style>

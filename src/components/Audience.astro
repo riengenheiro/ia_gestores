@@ -1,0 +1,69 @@
+---
+import { eventData } from '../data/event';
+---
+
+<section class="audience-section">
+  <div class="container">
+    <div class="audience-header text-center">
+      <h2 class="audience-title">Para quem é este evento</h2>
+      <p class="audience-sub">Antes de garantir sua vaga, veja se este encontro foi feito para você.</p>
+    </div>
+
+    <div class="audience-grid">
+      <div class="audience-card audience-yes">
+        <h3>✅ É pra você se</h3>
+        <ul>
+          {eventData.forYou.map((t) => <li>{t}</li>)}
+        </ul>
+      </div>
+      <div class="audience-card audience-no">
+        <h3>❌ Não é pra você se</h3>
+        <ul>
+          {eventData.notForYou.map((t) => <li>{t}</li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .audience-section { padding: 64px 0; background: var(--color-white); }
+  .audience-header { margin-bottom: 36px; }
+  .audience-title { font-size: 32px; font-weight: 800; color: var(--color-dark); margin-bottom: 8px; }
+  .audience-sub { font-size: 15px; color: var(--color-gray-medium); }
+  .audience-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .audience-card {
+    border-radius: var(--radius-xl);
+    padding: 28px 26px;
+    border: 1px solid var(--color-gray-border);
+  }
+  .audience-yes { background: #f2fbf4; border-color: #bfe5c8; }
+  .audience-no { background: #fdf3f1; border-color: #f2cfc6; }
+  .audience-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 16px; color: var(--color-dark); }
+  .audience-card ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .audience-card li {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--color-gray-dark);
+    padding-left: 16px;
+    position: relative;
+  }
+  .audience-card li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    font-weight: 900;
+  }
+  .audience-yes li::before { color: #2e9e4f; }
+  .audience-no li::before { color: var(--color-primary); }
+  @media (max-width: 860px) {
+    .audience-grid { grid-template-columns: 1fr; }
+    .audience-title { font-size: 25px; }
+  }
+</style>

@@ -1,0 +1,23 @@
+# Pasta de estudo (não subir para o repositório)
+Estudo/
+estudo/
+*.pdf
+
+# Dependências
+node_modules/
+
+# Build do Astro
+dist/
+.astro/
+
+# Ambiente e Logs
+.env
+.env.production
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Sistema operacional
+.DS_Store
+Thumbs.db

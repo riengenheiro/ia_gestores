@@ -1,0 +1,112 @@
+---
+import { eventData } from '../data/event';
+import VideoFacade from './VideoFacade.astro';
+---
+
+<section class="hero-section">
+  <div class="container-narrow hero-container">
+    <span class="hero-eyebrow font-anton">{eventData.eyebrow}</span>
+    <h1 class="hero-title">{eventData.headline}</h1>
+    <p class="hero-subtitle">{eventData.subheadline}</p>
+
+    <div class="hero-cta-wrapper">
+      <a href="#ingressos" class="btn-primary hero-btn">{eventData.heroCtaText}</a>
+      <p class="hero-price-note">
+        De <s>R$ {eventData.priceFull}</s> por <strong>R$ {eventData.priceLot}</strong> {eventData.lotDeadlineText}
+      </p>
+      <p class="hero-notice">{eventData.heroNotice}</p>
+      <a href="#experiencia" class="hero-arrow" aria-label="Continuar lendo">&darr;</a>
+      {eventData.heroVideoId && (
+        <div class="hero-video">
+          <VideoFacade id={eventData.heroVideoId} title="Vídeo da Kelly Zortea sobre o IA para Gestores" />
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    padding: 56px 0 48px;
+    background: radial-gradient(circle at 50% 0%, rgba(224, 64, 28, 0.1) 0%, transparent 60%), #ffffff;
+    border-bottom: 1px solid var(--color-gray-border);
+  }
+  .hero-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    background-color: rgba(224, 64, 28, 0.1);
+    color: var(--color-primary);
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(224, 64, 28, 0.2);
+  }
+  .hero-title {
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--color-dark);
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+  .hero-subtitle {
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--color-gray-medium);
+    line-height: 1.5;
+    max-width: 680px;
+    margin-bottom: 32px;
+  }
+  .hero-cta-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-btn {
+    font-size: 18px;
+    padding: 18px 40px;
+  }
+  .hero-price-note {
+    font-size: 15px;
+    color: var(--color-gray-dark);
+  }
+  .hero-price-note strong { color: var(--color-primary); }
+  .hero-notice {
+    font-size: 13px;
+    color: var(--color-gray-light);
+  }
+  .hero-arrow {
+    color: var(--color-primary);
+    font-size: 24px;
+    font-weight: 800;
+    animation: bounce 1.8s infinite;
+  }
+  .hero-video {
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 9 / 16;
+    margin: 20px auto 0;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    background: #000;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+  @media (max-width: 768px) {
+    .hero-title { font-size: 25px; }
+    .hero-subtitle { font-size: 16px; }
+    .hero-btn { font-size: 15px; padding: 15px 24px; width: 100%; }
+    .hero-video { max-width: 300px; }
+  }
+</style>

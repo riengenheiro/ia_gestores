@@ -1,0 +1,145 @@
+---
+import { eventData } from '../data/event';
+const c = eventData.calculator;
+---
+
+<section class="calc-section">
+  <div class="container-focus">
+    <div class="calc-header text-center">
+      <h2 class="calc-title">Descubra o potencial de vendas da sua empresa</h2>
+      <p class="calc-sub">Simule quanto sua empresa poderia faturar a mais melhorando o acompanhamento das oportunidades comerciais.</p>
+    </div>
+
+    <div class="calc-card" id="calc" data-rate={c.recoveryRate}>
+      <label class="calc-field">
+        <span>Quantos orçamentos ou propostas sua empresa envia por mês?</span>
+        <input type="number" min="0" id="calc-proposals" value={c.proposals} inputmode="numeric" />
+      </label>
+      <label class="calc-field">
+        <span>Quantos desses orçamentos se transformam em vendas?</span>
+        <input type="number" min="0" id="calc-closed" value={c.closed} inputmode="numeric" />
+      </label>
+      <label class="calc-field">
+        <span>Qual é o valor médio de cada venda? (R$)</span>
+        <input type="number" min="0" id="calc-ticket" value={c.ticket} inputmode="numeric" />
+      </label>
+
+      <div class="calc-result">
+        <span class="calc-result-label">Recuperando só 10% dos que não fecharam</span>
+        <span class="calc-result-value font-anton" id="calc-month">R$ 0,00</span>
+        <span class="calc-result-label">por mês, com gente que já te procurou</span>
+        <span class="calc-result-year">No ano: <strong id="calc-year">R$ 0,00</strong></span>
+      </div>
+
+      <p class="calc-disclaimer">
+        Esta é uma simulação ilustrativa, não uma promessa de resultado. Melhorar processos e acompanhar oportunidades comerciais pode ajudar sua empresa a aumentar as vendas.
+      </p>
+    </div>
+
+    <p class="calc-bridge text-center">No dia 5 de novembro, você faz essa conta com os seus números, e vê ao vivo como a IA ajuda a ir atrás desse dinheiro.</p>
+
+    <div class="text-center">
+      <a href="#ingressos" class="btn-primary">GARANTIR MINHA VAGA</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.getElementById('calc');
+  const rate = Number(root?.dataset.rate ?? 0.1);
+  const fmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+  const val = (id: string) => Math.max(0, Number((document.getElementById(id) as HTMLInputElement)?.value) || 0);
+
+  function update() {
+    const lost = Math.max(0, val('calc-proposals') - val('calc-closed'));
+    const month = lost * rate * val('calc-ticket');
+    document.getElementById('calc-month')!.textContent = fmt.format(month);
+    document.getElementById('calc-year')!.textContent = fmt.format(month * 12);
+  }
+
+  root?.querySelectorAll('input').forEach((i) => i.addEventListener('input', update));
+  update();
+</script>
+
+<style>
+  .calc-section {
+    padding: 64px 0;
+    background-color: var(--color-light-bg);
+    border-top: 1px solid var(--color-gray-border);
+    border-bottom: 1px solid var(--color-gray-border);
+  }
+  .calc-header { margin-bottom: 28px; }
+  .calc-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--color-dark);
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .calc-sub { font-size: 15px; color: var(--color-gray-medium); }
+  .calc-card {
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-border);
+    border-radius: var(--radius-xl);
+    padding: 28px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .calc-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-dark-alt);
+  }
+  .calc-field input {
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 700;
+    padding: 12px 14px;
+    border: 2px solid var(--color-gray-border);
+    border-radius: var(--radius-md);
+    transition: border-color 0.2s ease;
+  }
+  .calc-field input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+  .calc-result {
+    background: var(--color-dark);
+    color: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .calc-result-label { font-size: 14px; color: rgba(255, 255, 255, 0.75); }
+  .calc-result-value {
+    font-size: 48px;
+    line-height: 1.1;
+    color: #ff6a45;
+  }
+  .calc-result-year { font-size: 15px; margin-top: 6px; }
+  .calc-disclaimer {
+    font-size: 12px;
+    color: var(--color-gray-light);
+    line-height: 1.5;
+  }
+  .calc-bridge {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--color-dark);
+    margin: 32px auto 20px;
+    max-width: 560px;
+  }
+  @media (max-width: 768px) {
+    .calc-title { font-size: 25px; }
+    .calc-card { padding: 20px; }
+    .calc-result-value { font-size: 38px; }
+  }
+</style>

@@ -1,0 +1,89 @@
+---
+import { eventData } from '../data/event';
+
+const g = eventData.guarantee;
+---
+
+<section class="policy-section">
+  <div class="container-focus text-center">
+    <div class="seal" aria-hidden="true">
+      <span class="seal-top">GARANTIA</span>
+      <span class="seal-big font-anton">100%</span>
+      <span class="seal-bottom">ATÉ {g.days} DIAS ANTES</span>
+    </div>
+
+    <h2 class="policy-title">{g.title}</h2>
+    <p class="policy-lead">{g.lead}</p>
+    <p class="policy-text">{g.text}</p>
+    <p class="policy-closing">{g.closing}</p>
+
+    <a href="#ingressos" class="btn-light">GARANTIR MINHA VAGA SEM RISCO · R$ {eventData.priceLot}</a>
+    <p class="policy-note">Reembolso integral para pedidos feitos até {g.deadlineText}.</p>
+  </div>
+</section>
+
+<style>
+  .policy-section {
+    padding: 64px 0;
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+  .seal {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    background: var(--color-white);
+    color: var(--color-primary);
+    border: 6px double var(--color-primary);
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.35), 0 12px 30px rgba(0, 0, 0, 0.18);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .seal-top,
+  .seal-bottom {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+  }
+  .seal-big {
+    font-size: 48px;
+    margin: 4px 0;
+  }
+  .policy-title {
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .policy-lead {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.45;
+    margin-bottom: 14px;
+  }
+  .policy-text {
+    font-size: 16px;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 14px;
+  }
+  .policy-closing {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 26px;
+  }
+  .policy-note {
+    margin-top: 12px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  @media (max-width: 768px) {
+    .policy-title { font-size: 26px; }
+    .policy-lead { font-size: 17px; }
+    .policy-section :global(.btn-light) { width: 100%; padding: 16px 18px; font-size: 15px; }
+  }
+</style>
